@@ -15,7 +15,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let s:config_dir = expand('<sfile>:h:h').'/config/fg'
-let s:config_file =  s:settings_dir . '/settings.toml'
+let s:config_file = s:config_dir . '/settings.toml'
 
 let s:config = {}
 
