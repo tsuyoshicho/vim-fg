@@ -1,0 +1,39 @@
+# The Platinum Searcher
+[[tool]]
+name = 'pt'
+symbol = 'Pt'
+description.fullname = 'The Platinum Searcher'
+description.url = 'https://github.com/monochromegane/the_platinum_searcher'
+opt.short = '-'
+opt.full = '--'
+opt.combine = false
+opt.set.base = ['--nocolor', '--nogroup']
+# opt.grepformat = ''
+opt.set.search = []
+opt.variant.pattern = []
+opt.variant.regex = ['-e']
+opt.variant.ignore = ['--ignore-case']
+opt.variant.smart = ['--smart-case']
+opt.variant.hidden = ['--hidden']
+opt.variant.notignore = ['--skip-vcs-ignores']
+opt.set.filelist = ['--files-with-matches']
+
+# The Silver Searcher
+[[tool]]
+name = 'ag'
+symbol = 'Ag'
+description.fullname = 'The Silver Searcher'
+description.url = 'https://github.com/ggreer/the_silver_searcher'
+opt.short = '-'
+opt.full = '--'
+opt.combine = false
+opt.set.base = ['--nocolor', '--nogroup', '--column']
+# opt.grepformat = ''
+opt.set.search = []
+opt.variant.pattern = ['--literal']
+opt.variant.regex = []
+opt.variant.ignore = ['--ignore-case']
+opt.variant.smart = ['--smart-case']
+opt.variant.hidden = ['--hidden']
+opt.variant.notignore = ['--skip-vcs-ignores']
+opt.set.filelist = ['--files-with-matches']
