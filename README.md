@@ -16,15 +16,15 @@ vim find and grep support plugin
 ## ToDo
 
 - [ ] `grepprg` format support
-- [ ] yaml config read support
+- [ ] toml config read support
 - [ ] default use priority config support
 - [ ] search command and format support
 
 ## Note
 
-- yaml config load lazy VimEnter
+- toml config load lazy VimEnter
 - setup greprg and other value then load
-- yaml config read, option (use regex, find hidden...) build
+- toml config read, option (use regex, find hidden...) build
 - command `Fg` with high prio, usable find command run
 - command `FgXxx` each find command
 - inner func deriv, grepprg format,find format,filelist format generating
