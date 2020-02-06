@@ -1,3 +1,5 @@
+# Currently draft, not work it.
+
 # vim-fg
 
 vim find and grep support plugin
@@ -25,6 +27,6 @@ vim find and grep support plugin
 - toml config load lazy VimEnter
 - setup greprg and other value then load
 - toml config read, option (use regex, find hidden...) build
-- command `Fg` with high prio, usable find command run
+- command `Fg` with high priority, found execuable command.
 - command `FgXxx` each find command
 - inner func deriv, grepprg format,find format,filelist format generating
