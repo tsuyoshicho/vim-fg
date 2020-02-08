@@ -59,15 +59,16 @@ function s:init() abort
     let item.executable = executable(name)
     if item.executable
       if exists('*fg#' . name . '#init')
-        call fg#{name}#init(item)
+        " first time direct call need
+        execute 'call ' . '*fg#' . name . '#init'
       endif
     endif
   endfor
 
   let prio_list = get(g:, 'fg#priority', [])
-  call s:List.map(prio_list, {v -> s:prio.push(v) })
-  call s:List.map(s:config.tool, {v -> !v.executable && s:prio.remove(v.name) })
-  call s:List.map(s:config.tool, {v -> v.executable && s:prio.push(v.name) })
+  call s:List.map(prio_list, {v -> s:prio.push(v)})
+  call s:List.map(s:config.tool, {v -> !v.executable && s:prio.remove(v.name)})
+  call s:List.map(s:config.tool, {v -> v.executable && s:prio.push(v.name)})
 
   let greplist = s:prio.to_list()
   for name in greplist
@@ -80,18 +81,22 @@ function s:init() abort
 endfunction
 
 function fg#new(...) abort
+  let name = s:prio.to_list()[0]
+  if a:0 > 0
+    let name = a:1
+  endif
+  return s:new(name)
+endfunction
+
+function s:new(name) abort
   if s:prio.size() == 0
     return v:null
   endif
 
-  let name = s:prio.to_list()[0]
-  if a:000 > 0
-    let name = a:1
-  endif
-  if exists('*fg#' . name . '#new')
-    return fg#{name}#new()
+  if exists('*fg#' . a:name . '#new')
+    return fg#{a:name}#new()
   else
-    throw 'not configured'
+    throw printf('not configured:%s', a:name)
   endif
 endfunction
 
