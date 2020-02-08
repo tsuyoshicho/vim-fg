@@ -38,6 +38,7 @@ let s:config = {}
 let s:prio = s:OrderedSet.new()
 let s:instance = {}
 
+" API function
 function fg#dump() abort
   return [s:config, s:prio.to_list(), s:instance]
 endfunction
@@ -50,6 +51,15 @@ function fg#enter() abort
   " call command define
 endfunction
 
+function fg#new(...) abort
+  let name = s:prio.to_list()[0]
+  if a:0 > 0
+    let name = a:1
+  endif
+  return s:new(name)
+endfunction
+
+" inner function
 function s:init() abort
   if !has_key(s:config,'tool')
     throw 'config file error'
@@ -74,14 +84,6 @@ function s:init() abort
   for name in greplist
     let s:instance[name] = s:new(name)
   endfor
-endfunction
-
-function fg#new(...) abort
-  let name = s:prio.to_list()[0]
-  if a:0 > 0
-    let name = a:1
-  endif
-  return s:new(name)
 endfunction
 
 function s:new(name) abort
