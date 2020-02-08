@@ -36,9 +36,10 @@ let s:OrderedSet = s:V.import('Data.OrderedSet')
 
 let s:config = {}
 let s:prio = s:OrderedSet.new()
+let s:instance = {}
 
 function fg#dump() abort
-  return [s:config, s:prio.to_list()]
+  return [s:config, s:prio.to_list(), s:instance]
 endfunction
 
 function fg#enter() abort
@@ -67,6 +68,15 @@ function s:init() abort
   call s:List.map(prio_list, {v -> s:prio.push(v) })
   call s:List.map(s:config.tool, {v -> !v.executable && s:prio.remove(v.name) })
   call s:List.map(s:config.tool, {v -> v.executable && s:prio.push(v.name) })
+
+  let greplist = s:prio.to_list()
+  for name in greplist
+    let obj = v:null
+    if exists("*fg#{name}#new")
+      let obj = fg#{name}#new()
+    endif
+    let s:instance[name] = obj
+  endfor
 endfunction
 
 function fg#new(...) abort
@@ -84,7 +94,6 @@ function fg#new(...) abort
     throw 'not configured'
   endif
 endfunction
-
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
