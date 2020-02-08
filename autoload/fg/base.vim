@@ -4,7 +4,7 @@ function! s:obj.new() abort
   return deepcopy(self)
 endfunction
 
-function! s:obj.config(item) abort
+function! s:obj.init(item) abort
   let self['config'] = item
 endfunction
 

@@ -58,7 +58,7 @@ function s:init() abort
     let name = item.name
     let item.executable = executable(name)
     if item.executable
-      if exists("*fg#{name}#init")
+      if exists('*fg#' . name . '#init')
         call fg#{name}#init(item)
       endif
     endif
@@ -72,7 +72,7 @@ function s:init() abort
   let greplist = s:prio.to_list()
   for name in greplist
     let obj = v:null
-    if exists("*fg#{name}#new")
+    if exists('*fg#' . name . '#new')
       let obj = fg#{name}#new()
     endif
     let s:instance[name] = obj
@@ -88,7 +88,7 @@ function fg#new(...) abort
   if a:000 > 0
     let name = a:1
   endif
-  if exists("*fg#{name}#new")
+  if exists('*fg#' . name . '#new')
     return fg#{name}#new()
   else
     throw 'not configured'
