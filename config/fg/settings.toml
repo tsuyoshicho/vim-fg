@@ -18,13 +18,19 @@ base = ['--nocolor', '--nogroup']
 search = []
 filelist = ['--files-with-matches']
 
-[tool.opt.variant]
-pattern = []
-regex = ['-e']
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
 ignore = ['--ignore-case']
 smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = []
+regex = ['-e']
+
+[tool.opt.variant.target]
 hidden = ['--hidden']
-notignore = ['--skip-vcs-ignores']
+notvcs = ['--skip-vcs-ignores']
 
 # The Silver Searcher
 [[tool]]
@@ -46,10 +52,16 @@ base = ['--nocolor', '--nogroup', '--column']
 search = []
 filelist = ['--files-with-matches']
 
-[tool.opt.variant]
-pattern = ['--literal']
-regex = []
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
 ignore = ['--ignore-case']
 smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = ['--literal']
+regex = []
+
+[tool.opt.variant.target]
 hidden = ['--hidden']
-notignore = ['--skip-vcs-ignores']
+notvcs = ['--skip-vcs-ignores']
