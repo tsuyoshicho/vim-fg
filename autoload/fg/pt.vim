@@ -1,7 +1,7 @@
 let s:obj = g:fg#base#object.new()
 
 function! fg#pt#init(item) abort
-  call s:obj.init(item)
+  call s:obj.init(a:item)
 endfunction
 
 function! fg#pt#new() abort

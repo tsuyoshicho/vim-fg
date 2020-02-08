@@ -5,7 +5,7 @@ function! s:obj.new() abort
 endfunction
 
 function! s:obj.init(item) abort
-  let self['config'] = item
+  let self['config'] = a:item
 endfunction
 
 let g:fg#base#object = s:obj

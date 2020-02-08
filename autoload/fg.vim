@@ -58,10 +58,10 @@ function s:init() abort
     let name = item.name
     let item.executable = executable(name)
     if item.executable
-      if exists('*fg#' . name . '#init')
+      try
         " first time direct call need
-        execute 'call ' . '*fg#' . name . '#init'
-      endif
+        call fg#{name}#init(item)
+      endtry
     endif
   endfor
 
@@ -72,11 +72,7 @@ function s:init() abort
 
   let greplist = s:prio.to_list()
   for name in greplist
-    let obj = v:null
-    if exists('*fg#' . name . '#new')
-      let obj = fg#{name}#new()
-    endif
-    let s:instance[name] = obj
+    let s:instance[name] = s:new(name)
   endfor
 endfunction
 
@@ -93,11 +89,11 @@ function s:new(name) abort
     return v:null
   endif
 
-  if exists('*fg#' . a:name . '#new')
+  try
     return fg#{a:name}#new()
-  else
+  catch
     throw printf('not configured:%s', a:name)
-  endif
+  endtry
 endfunction
 
 let &cpo = s:save_cpo
