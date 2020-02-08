@@ -14,6 +14,8 @@ let g:loaded_vim_fg = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
+let g:fg#priority = get(g:, 'fg#priority', [])
+
 augroup vim-fg-init
   autocmd!
   autocmd VimEnter * call fg#enter() | autocmd! vim-fg-init

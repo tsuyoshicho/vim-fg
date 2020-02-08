@@ -28,14 +28,17 @@ set cpo&vim
 let s:config_dir = expand('<sfile>:h:h').'/config/fg'
 let s:config_file = s:config_dir . '/settings.toml'
 
-let s:config = {}
-
 let s:V = vital#fg#new()
-let s:Filepath = s:V.import('System.Filepath')
-let s:TOML = s:V.import('Text.TOML')
+let s:Filepath   = s:V.import('System.Filepath')
+let s:TOML       = s:V.import('Text.TOML')
+let s:List       = s:V.import('Data.List')
+let s:OrderedSet = s:V.import('Data.OrderedSet')
+
+let s:config = {}
+let s:prio = s:OrderedSet.new()
 
 function fg#dump() abort
-  return s:config
+  return [s:config, s:prio.to_list()]
 endfunction
 
 function fg#enter() abort
@@ -52,14 +55,29 @@ function s:init() abort
   endif
   for item in s:config.tool
     let name = item.name
-    if exists("*fg#{name}#init")
-      call fg#{name}#init(item)
+    let item.executable = executable(name)
+    if item.executable
+      if exists("*fg#{name}#init")
+        call fg#{name}#init(item)
+      endif
     endif
   endfor
+
+  let prio_list = get(g:, 'fg#priority', [])
+  call s:List.map(prio_list, {v -> s:prio.push(v) })
+  call s:List.map(s:config.tool, {v -> !v.executable && s:prio.remove(v.name) })
+  call s:List.map(s:config.tool, {v -> v.executable && s:prio.push(v.name) })
 endfunction
 
-function fg#new(name) abort
-  let name = a:name
+function fg#new(...) abort
+  if s:prio.size() == 0
+    return v:null
+  endif
+
+  let name = s:prio.to_list()[0]
+  if a:000 > 0
+    let name = a:1
+  endif
   if exists("*fg#{name}#new")
     return fg#{name}#new()
   else
