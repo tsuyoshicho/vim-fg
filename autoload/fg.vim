@@ -14,6 +14,22 @@ let g:loaded_vim_fg = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
+" coding note
+"  init in VimEnter
+"   load config
+"   check executable with prioriy
+"   call init per custom init code
+"   create static instance
+"
+" usage memo
+" let grep = fg#new() or fg#new('pt')
+" (if not support or no exist command return v:null)
+" call grep.search('word') result to quickfix
+" let &grepprg = grep.getGrepPrg(param)
+" let comand = grep.getGrepComand(param)
+" let comand = grep.getFilelistCommand(param)
+" simply support fg#getXxx redirect high prio instans same method
+
 let s:config_dir = expand('<sfile>:h:h').'/config/fg'
 let s:config_file = s:config_dir . '/settings.toml'
 
@@ -23,23 +39,16 @@ let s:V = vital#fg#new()
 let s:Filepath = s:V.import('System.Filepath')
 let s:TOML = s:V.import('Text.TOML')
 
-function fg#enter() abort
-  " load toml config
-  let s:config = s:TOML.parse_file(s:config_file)
-  call s:init()
-endfunction
-
 function fg#dump() abort
   return s:config
 endfunction
 
-function fg#new(name) abort
-  let name = a:name
-  if exists("*fg#{name}#new")
-    return fg#{name}#new()
-  else
-    throw 'not configured'
-  endif
+function fg#enter() abort
+  " load toml config
+  let s:config = s:TOML.parse_file(s:config_file)
+  " call init (exec check, static instance create)
+  call s:init()
+  " call command define
 endfunction
 
 function s:init() abort
@@ -53,6 +62,16 @@ function s:init() abort
     endif
   endfor
 endfunction
+
+function fg#new(name) abort
+  let name = a:name
+  if exists("*fg#{name}#new")
+    return fg#{name}#new()
+  else
+    throw 'not configured'
+  endif
+endfunction
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
