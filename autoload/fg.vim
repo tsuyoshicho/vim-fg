@@ -6,11 +6,6 @@
 
 scriptencoding utf-8
 
-if !exists('g:loaded_vim_fg')
-    finish
-endif
-let g:loaded_vim_fg = 1
-
 let s:save_cpo = &cpo
 set cpo&vim
 
