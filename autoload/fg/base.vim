@@ -46,6 +46,25 @@ function! s:obj.getSearchCmd(...) abort
   return join(cmd, ' ')
 endfunction
 
+function! s:obj.getFileListupCmd(...) abort
+  let param = extend(get(g: ,'fg#param', {}), {
+  \  'filelit': {
+  \    'set': {
+  \      'base':     v:true,
+  \      'filelist': v:true,
+  \    },
+  \    'variant': {
+  \      'case':  'smart',
+  \    },
+  \  }
+  \}, 'keep')
+
+  let cmd = s:build(self.config, param.filelit)
+  let cmd = extend(cmd, ['""'])
+
+  return join(cmd, ' ')
+endfunction
+
 " inner function
 
 function! s:build(config, param) abort
