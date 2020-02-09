@@ -32,6 +32,7 @@ let s:V = vital#fg#new()
 let s:Filepath   = s:V.import('System.Filepath')
 let s:TOML       = s:V.import('Text.TOML')
 let s:List       = s:V.import('Data.List')
+let s:String     = s:V.import('Data.String')
 let s:OrderedSet = s:V.import('Data.OrderedSet')
 
 let s:config = {}
@@ -60,8 +61,8 @@ function! fg#new(...) abort
 endfunction
 
 " from grep.vim
-function! fg#grep(cmd, grep, action, ...)
-  if a:0 > 0 && (a:1 == '-?' || a:1 == '-h')
+function! fg#grep(cmd, grep, action, ...) abort
+  if a:0 > 0 && (a:1 ==# '-?' || a:1 ==# '-h')
     echo 'Usage: ' . a:cmd . ' [<options>] [<search_pattern> ' .
     \ '[<file_name(s)>]]'
     return
@@ -80,7 +81,7 @@ function! fg#grep(cmd, grep, action, ...)
     echo "\r"
   endif
 
-  if filenames == '' && !s:recursiveSearchCmd(a:grep)
+  if empty(filenames) && !s:recursiveSearchCmd(a:grep)
     let filenames = input('Search in files: ', g:Grep_Default_Filelist,
     \ 'file')
     if filenames == ''
@@ -131,6 +132,44 @@ function! s:new(name) abort
   catch
     throw printf('not configured:%s', a:name)
   endtry
+endfunction
+
+" parseArgs()
+" Parse arguments to the grep command. The expected order for the various
+" arguments is:
+" 	<grep_option[s]> <search_pattern> <file_pattern[s]>
+" grep command-line flags are specified using the "-flag" format.
+" the next argument is assumed to be the pattern.
+" and the next arguments are assumed to be filenames or file patterns.
+function! s:parseArgs(cmd_name, args)
+  let cmdopt = ''
+  let pattern = ''
+  let filepattern = ''
+
+  " temp
+  let shortrefix = ''
+  let fullrefix = ''
+
+  for one_arg in a:args
+    if (s:String.starts_with(one_arg ,shortrefix)
+    \   || s:String.starts_with(one_arg ,shortrefix))
+    \  && empty(pattern)
+      " Process grep arguments at the beginning of the argument list
+      let cmdopt = cmdopt . ' ' . one_arg
+    elseif pattern == ''
+      " Only one search pattern can be specified
+      let pattern = one_arg
+    else
+      " More than one file patterns can be specified
+      if filepattern != ''
+        let filepattern = filepattern . ' ' . one_arg
+      else
+        let filepattern = one_arg
+      endif
+    endif
+  endfor
+
+  return [cmdopt, pattern, filepattern]
 endfunction
 
 let &cpo = s:save_cpo

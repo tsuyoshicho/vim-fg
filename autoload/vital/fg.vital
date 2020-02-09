@@ -5,3 +5,4 @@ System.Filepath
 Text.TOML
 Data.List
 Data.OrderedSet
+Data.String
