@@ -43,7 +43,7 @@ function! s:obj.getSearchCmd(...) abort
 
   let cmd = s:build(self.config, param.search)
 
-  return join(cmd, ' ')
+  return cmd
 endfunction
 
 function! s:obj.getFileListupCmd(...) abort
@@ -62,7 +62,7 @@ function! s:obj.getFileListupCmd(...) abort
   let cmd = s:build(self.config, param.filelit)
   let cmd = extend(cmd, ['""'])
 
-  return join(cmd, ' ')
+  return cmd
 endfunction
 
 " inner function

@@ -35,6 +35,7 @@ let s:List         = s:V.import('Data.List')
 let s:String       = s:V.import('Data.String')
 let s:OrderedSet   = s:V.import('Data.OrderedSet')
 let s:Arg          = s:V.import('ArgumentParser')
+let s:Process      = s:V.import('System.Process')
 let s:AsyncProcess = s:V.import('Async.Promise.Process')
 
 let s:config = {}
@@ -60,6 +61,33 @@ function! fg#new(...) abort
     let name = a:1
   endif
   return s:new(name)
+endfunction
+
+" first impl simply
+function! fg#grep() abort
+  if s:prio.size() == 0
+    return
+  endif
+
+  let pattern = input('Search for pattern: ', expand('<cword>'))
+  if pattern == ''
+    return
+  endif
+
+  let grep = s:instance[s:prio.to_list()[0]]
+  echomsg 'grep obj:' grep
+  let cmd = grep.getSearchCmd()
+  let cmd = extend(cmd, [pattern, '.']) " fix current dir
+  echomsg 'cmd:' cmd
+  if s:AsyncProcess.is_available()
+    echomsg 'search async'
+    let result = s:AsyncProcess.start(cmd).then({v -> execute('echomsg v','')})
+    echomsg result
+  else
+    echomsg 'search sync'
+    let result = s:Process.execute(cmd, {})
+    echomsg result
+  endif
 endfunction
 
 " " from grep.vim
