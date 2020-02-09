@@ -27,6 +27,27 @@ function! s:obj.getGrepPrg(...) abort
   return join(cmd, ' ')
 endfunction
 
+function! s:obj.getSearchCmd(...) abort
+  let param = extend(get(g: ,'fg#param', {}), {
+  \  'search': {
+  \    'set': {
+  \      'base':   v:true,
+  \      'search': v:true,
+  \    },
+  \    'variant': {
+  \      'case':  'smart',
+  \      'word':  'regex',
+  \    },
+  \  }
+  \}, 'keep')
+
+  let cmd = s:build(self.config, param.search)
+
+  return join(cmd, ' ')
+endfunction
+
+" inner function
+
 function! s:build(config, param) abort
   let cmd = []
 
