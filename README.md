@@ -14,6 +14,7 @@ vim find and grep support plugin
 - grep like program option handling
 - grepprg, grep command, filelistup command support with option
   tunnable
+- core search command code import/fork from [yegappan/grep](https://github.com/yegappan/grep)
 
 ## ToDo
 
