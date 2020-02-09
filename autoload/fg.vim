@@ -59,6 +59,41 @@ function! fg#new(...) abort
   return s:new(name)
 endfunction
 
+" from grep.vim
+function! fg#grep(cmd, grep, action, ...)
+  if a:0 > 0 && (a:1 == '-?' || a:1 == '-h')
+    echo 'Usage: ' . a:cmd . ' [<options>] [<search_pattern> ' .
+    \ '[<file_name(s)>]]'
+    return
+  endif
+
+  " Parse the arguments and get the grep options, search pattern
+  " and list of file names/patterns
+  let [opts, pattern, filenames] = s:parseArgs(a:grep, a:000)
+
+  " Get the identifier and file list from user
+  if pattern == ''
+    let pattern = input('Search for pattern: ', expand('<cword>'))
+    if pattern == ''
+      return
+    endif
+    echo "\r"
+  endif
+
+  if filenames == '' && !s:recursiveSearchCmd(a:grep)
+    let filenames = input('Search in files: ', g:Grep_Default_Filelist,
+    \ 'file')
+    if filenames == ''
+      return
+    endif
+    echo "\r"
+  endif
+
+  " Form the complete command line and run it
+  let cmd = s:formFullCmd(a:grep, opts, pattern, filenames)
+  call s:runGrepCmd(cmd, pattern, a:action)
+endfunction
+
 " inner function
 function! s:init() abort
   if !has_key(s:config,'tool')
