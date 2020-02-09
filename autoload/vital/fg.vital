@@ -6,3 +6,5 @@ Text.TOML
 Data.List
 Data.OrderedSet
 Data.String
+ArgumentParser
+System.Job

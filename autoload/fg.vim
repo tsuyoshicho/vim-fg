@@ -34,6 +34,8 @@ let s:TOML       = s:V.import('Text.TOML')
 let s:List       = s:V.import('Data.List')
 let s:String     = s:V.import('Data.String')
 let s:OrderedSet = s:V.import('Data.OrderedSet')
+let s:Arg        = s:V.import('ArgumentParser')
+let s:Job        = s:V.import('System.Job')
 
 let s:config = {}
 let s:prio = s:OrderedSet.new()
