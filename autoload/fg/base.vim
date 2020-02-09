@@ -9,16 +9,44 @@ function! s:obj.init(item) abort
 endfunction
 
 function! s:obj.getGrepPrg(...) abort
-  let param = extend(get(g: ,'fg#grepprg#param', {}), {
-  \
+  let param = extend(get(g: ,'fg#param', {}), {
+  \  'grepprg': {
+  \    'set': {
+  \      'base':   v:true,
+  \      'search': v:true,
+  \    },
+  \    'variant': {
+  \      'case':  'smart',
+  \      'word':  'regex',
+  \    },
+  \  }
   \}, 'keep')
 
-  let cmd = []
-  let cmd = add(cmd, self.config.name)
-  let cmd = extend(cmd, self.config.opt.set.base)
-  let cmd = extend(cmd, self.config.opt.set.search)
+  let cmd = s:build(self.config, param.grepprg)
 
   return join(cmd, ' ')
+endfunction
+
+function! s:build(config, param) abort
+  let cmd = []
+
+  let cmd = add(cmd, a:config.name)
+
+  " set join
+  for [name, value] in items(a:param.set)
+    if value && has_key(a:config.opt.set, name)
+      let cmd = extend(cmd, a:config.opt.set[name])
+    endif
+  endfor
+
+  " variant join
+  for [name, value] in items(a:param.variant)
+    if has_key(a:config.opt.variant, name) && has_key(a:config.opt.variant[name], value)
+      let cmd = extend(cmd, a:config.opt.variant[name][value])
+    endif
+  endfor
+
+  return cmd
 endfunction
 
 let g:fg#base#object = s:obj

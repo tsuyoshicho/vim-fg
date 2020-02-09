@@ -15,6 +15,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let g:fg#priority = get(g:, 'fg#priority', [])
+let g:fg#param = get(g: ,'fg#param', {})
 
 augroup vim-fg-init
   autocmd!
