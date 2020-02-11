@@ -29,23 +29,22 @@ endfunction
 
 function! s:obj.getSearchCmd(...) abort
   let param = extend(get(g: ,'fg#param', {}), {
-  \  'search': {
-  \    'set': {
-  \      'base':   v:true,
-  \      'search': v:true,
-  \    },
-  \    'variant': {
-  \      'case':  'smart',
-  \      'word':  'regex',
-  \    },
-  \  }
+  \  'search': {}
+  \}, 'keep')
+
+  let param.search['set'] = extend(get(param,'set',{}), {
+  \  'base':   v:true,
+  \  'search': v:true,
+  \}, 'keep')
+
+  let param.search['variant'] = extend(get(param,'variant',{}), {
+  \  'case':  'smart',
+  \  'word':  'regex',
   \}, 'keep')
 
   let opt = param.search
   if a:0 > 0
-    let opt = extend({
-    \  'variant': a:1
-    \}, param.search, 'keep')
+    let opt.variant = extend(a:1, opt.variant, 'keep')
   endif
 
   let cmd = s:build(self.config, opt)

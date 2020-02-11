@@ -15,7 +15,7 @@ combine = false
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup']
-search = []
+search = ['--column', '--output-encode', 'none']
 filelist = ['--files-with-matches']
 
 # [tool.opt.variant]

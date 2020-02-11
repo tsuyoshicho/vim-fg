@@ -92,12 +92,12 @@ function! s:grep(cmd, pattern, opt, args) abort
   endif
 
   let grep = s:instance[a:cmd]
-  echomsg 'grep obj:' grep
+  " echomsg 'grep obj:' grep
 
   let cmd = grep.getSearchCmd(a:opt)
   let cmd = extend(cmd, [pattern, '.']) " temp fix current dir
 
-  echomsg 'cmd:' cmd
+  " echomsg 'cmd:' cmd
 
   if get(g: ,'fg#async', 1) && s:AsyncProcess.is_available()
     " echomsg 'search async'
