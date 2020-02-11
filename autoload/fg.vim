@@ -75,48 +75,22 @@ function! fg#grep() abort
   endif
 
   let grep = s:instance[s:prio.to_list()[0]]
-  echomsg 'grep obj:' grep
+  " echomsg 'grep obj:' grep
   let cmd = grep.getSearchCmd()
-  let cmd = extend(cmd, [pattern, '.']) " fix current dir
-  echomsg 'cmd:' cmd
-  if s:AsyncProcess.is_available()
-    echomsg 'search async'
-    let result = s:AsyncProcess.start(cmd).then({v -> execute('echomsg v','')})
-    echomsg result
+  let cmd = extend(cmd, [pattern, '.']) " temp fix current dir
+  " echomsg 'cmd:' cmd
+  if get(g: ,'fg#async', 1) && s:AsyncProcess.is_available()
+    " echomsg 'search async'
+    let result = s:AsyncProcess.start(cmd).then({v -> s:asyncResult(v)})
+    " echomsg 'async promise:' result
   else
-    echomsg 'search sync'
-    let result = s:Process.execute(cmd, {})
-    echomsg result
+    " echomsg 'search sync'
+    let result = s:Process.execute(cmd, {
+    \  'split_output' : 1,
+    \})
+    call s:syncResult(result)
   endif
 endfunction
-
-" " from grep.vim
-" function! fg#grep(cmd, grep, action, ...) abort
-"   if a:0 > 0 && (a:1 ==# '-?' || a:1 ==# '-h')
-"     echo 'Usage: ' . a:cmd . ' [<options>] [<search_pattern> ' .
-"    \ '[<file_name(s)>]]'
-"     return
-"   endif
-"
-"   " Parse the arguments and get the grep options, search pattern
-"   " and list of file names/patterns
-"   let [opts, pattern, filenames] = s:parseArgs(a:grep, a:000)
-"
-"   " Get the identifier and file list from user
-"   if pattern == ''
-"     let pattern = input('Search for pattern: ', expand('<cword>'))
-"     if pattern == ''
-"       return
-"     endif
-"     echo "\r"
-"   endif
-"
-"   " file and recursive re-implement
-"
-"   " Form the complete command line and run it
-"   let cmd = s:formFullCmd(a:grep, opts, pattern, filenames)
-"   call s:runGrepCmd(cmd, pattern, a:action)
-" endfunction
 
 " inner function
 function! s:init() abort
@@ -157,132 +131,33 @@ function! s:new(name) abort
   endtry
 endfunction
 
-" function! s:parseArgs(program, args)
-"   let cmdopt = ''
-"   let pattern = ''
-"   let filepattern = ''
-"
-"   " re-implement arg parse
-"
-"   return [cmdopt, pattern, filepattern]
-" endfunction
-"
-" function! s:formFullCmd(program, opts, pattern, filenames)
-"   let fullcmd = ''
-"
-"   " re-implement command build
-"
-"   return fullcmd
-" endfunction
-"
-" function! s:runGrepCmd(cmd, pattern, action)
-"   " if need cmd setup
-"   "
-"   "
-"   if s:AsyncProcess.is_available()
-"     " Asynchronous operations using Process Promise
-"   else
-"     " Fallback into synchronous operations
-"   endif
-"   if s:Job.is_available()
-"     return s:runGrepCmdAsync(a:cmd, a:pattern, a:action)
-"   else
-"     let cmd_output = s:runGrepCmdSync(a:cmd, a:pattern, a:action)
-"
-"     if cmd_output == ''
-"       call s:warnMsg('Error: Pattern ' . a:pattern . ' not found')
-"       return
-"     endif
-"
-"     " Open the grep output window
-"     if v:true
-"       " Open the quickfix window below the current window
-"       botright copen
-"     endif
-"   endif
-" endfunction
-"
-" let s:current_job = v:null
-" function! s:on_stdout(data) abort dict
-"   " Check whether the quickfix list is still present
-"     let l = getqflist({'id' : self['qf_id']})
-"     if !has_key(l, 'id') || l.id == 0
-"       " Quickfix list is not present. Stop the search.
-"       call s:current_job.stop()
-"       return
-"     endif
-"
-"     let datalist = split(a:data[0], '\n')
-"     call setqflist([], 'a', {'id' : self.['qf_id'],
-"    \ 'lines' : datalist})
-"
-"     " if support efm
-"     "\ 'efm' : '%f:%\\s%#%l:%c:%m,%f:%\s%#%l:%m',
-" endfunction
-"
-" function! s:on_stderr(data) abort dict
-"   " not support?
-" endfunction
-"
-" function! s:on_exit(exitval) abort dict
-"   let self.exit_status = a:exitval
-"
-"   if v:true
-"     botright copen
-"   endif
-" endfunction
-"
-" " runGrepCmdAsync()
-" " Run the grep command asynchronously
-" function! s:runGrepCmdAsync(cmd, pattern, action) abort
-"   let qf = v:false
-"   if a:action ==? 'set'
-"     let qf = v:true
-"   endif
-"
-"   if !s:current_job
-"     call s:current_job.stop()
-"     caddexpr '[Search command interrupted]'
-"     let s:current_job = v:null
-"   endif
-"
-"   let title = '[Search results for ' . a:pattern . ']'
-"   if qf | call setqflist([], 'r') | endif
-"   caddexpr title . "\n"
-"   "caddexpr 'Search cmd: "' . a:cmd . '"'
-"   call setqflist([], 'a', {'title' : title})
-"   " Save the quickfix list id, so that the grep output can be added to
-"   " the correct quickfix list
-"   let l = getqflist({'id' : 0})
-"   if has_key(l, 'id')
-"     let qf_id = l.id
-"   else
-"     let qf_id = -1
-"   endif
-"
-"   " need cmd
-"   let s:current_job = s:Job.start(cmd , {
-"  \ 'stdout': [''],
-"  \ 'stderr': [''],
-"  \ 'exit_status': -1,
-"  \ 'qf_id': qf_id,
-"  \ 'on_stdout': function('on_stdout'),
-"  \ 'on_stderr': function('on_stderr'),
-"  \ 'on_exit': function('on_exit'),
-"  \})
-"
-"   if s:current_job.status() ==# 'dead'
-"     let s:current_job = v:null
-"     call s:warnMsg('Error: Failed to start the grep command')
-"     return
-"   endif
-" endfunction
-"
-" function! s:warnMsg(msg) abort
-"   echohl WarningMsg
-"   echomsg a:msg
-"   echohl None
-" endfunction
+function! s:asyncResult(value) abort
+  " echomsg 'async:' a:value
+  call s:resultSet(a:value.args[0], a:value.args[-2], a:value.stdout)
+endfunction
+
+function! s:syncResult(value) abort
+  " echomsg 'sync:' a:value
+  call s:resultSet(a:value.args[0], a:value.args[-2], a:value.content)
+endfunction
+
+function! s:resultSet(cmd, pattern, result) abort
+  " clear qf
+  call setqflist([], 'r')
+
+  let title = '[Search results for ' . a:pattern . ']'
+  caddexpr title . "\n"
+  "caddexpr 'Search cmd: "' . a:cmd . '"'
+  call setqflist([], 'a', {'title' : title})
+
+  call setqflist([], 'a', { 'lines' : a:result})
+  " echomsg 'result:' a:result
+
+  if v:true
+    " Open the quickfix window below the current window
+    botright copen
+  endif
+endfunction
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
