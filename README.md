@@ -1,8 +1,13 @@
-# Currently draft, not work it.
-
 # vim-fg
 
 vim find and grep support plugin
+
+## status
+
+- work grepprg get
+- work search cmd list
+- work filelist cmd list
+- not work ripgrep (regex opt need last do not work)
 
 ## Installation
 
