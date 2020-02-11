@@ -29,18 +29,20 @@ let s:config_dir = expand('<sfile>:h:h').'/config/fg'
 let s:config_file = s:config_dir . '/settings.toml'
 
 let s:V = vital#fg#new()
-let s:Filepath     = s:V.import('System.Filepath')
-let s:TOML         = s:V.import('Text.TOML')
-let s:List         = s:V.import('Data.List')
-let s:String       = s:V.import('Data.String')
-let s:OrderedSet   = s:V.import('Data.OrderedSet')
-let s:Arg          = s:V.import('ArgumentParser')
-let s:Process      = s:V.import('System.Process')
-let s:AsyncProcess = s:V.import('Async.Promise.Process')
+let s:Filepath       = s:V.import('System.Filepath')
+let s:TOML           = s:V.import('Text.TOML')
+let s:List           = s:V.import('Data.List')
+let s:String         = s:V.import('Data.String')
+let s:OrderedSet     = s:V.import('Data.OrderedSet')
+let s:ArgumentParser = s:V.import('ArgumentParser')
+let s:Process        = s:V.import('System.Process')
+let s:AsyncProcess   = s:V.import('Async.Promise.Process')
 
+" all of init in fg#enter
 let s:config = {}
-let s:prio = s:OrderedSet.new()
+let s:prio = [] " s:OrderedSet.new()
 let s:instance = {}
+let s:parser = {} " s:ArgumentParser.new()
 
 " API function
 function! fg#dump() abort
@@ -53,6 +55,7 @@ function! fg#enter() abort
   " call init (exec check, static instance create)
   call s:init()
   " call command define
+  call s:command()
 endfunction
 
 function! fg#new(...) abort
@@ -158,6 +161,35 @@ function! s:resultSet(cmd, pattern, result) abort
     " Open the quickfix window below the current window
     botright copen
   endif
+endfunction
+
+function! s:command(...) abort
+  " arg setup
+  let s:parser = s:ArgumentParser.new({
+  \ 'name': 'Fg',
+  \ 'description': [
+  \   'Async,multi command grep and find utility',
+  \ ],
+  \})
+
+  call s:parser.add_argument('--regex', 'regular expression', {
+  \ 'type': 'switch',
+  \})
+
+  " command mapping default
+  command! -nargs=? -range=% -bang
+  \ -complete=customlist,<SID>complete Fg
+  \ :call <SID>grepbind(<q-bang>, [<line1>, <line2>], <f-args>)
+  " per command
+endfunction
+
+function! s:grepbind(...) abort
+  let args = call(s:parser.parse, a:000, s:parser)
+  echomsg args
+endfunction
+
+function! s:complete(...) abort
+  return call(s:parser.complete, a:000, s:parser)
 endfunction
 
 let &cpo = s:save_cpo
