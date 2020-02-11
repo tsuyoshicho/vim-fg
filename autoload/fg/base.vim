@@ -41,7 +41,14 @@ function! s:obj.getSearchCmd(...) abort
   \  }
   \}, 'keep')
 
-  let cmd = s:build(self.config, param.search)
+  let opt = param.search
+  if a:0 > 0
+    let opt = extend({
+    \  'variant': a:1
+    \}, param.search, 'keep')
+  endif
+
+  let cmd = s:build(self.config, opt)
 
   return cmd
 endfunction

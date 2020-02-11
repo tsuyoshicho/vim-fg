@@ -79,10 +79,10 @@ function! fg#grep() abort
   endif
   let name = s:prio.to_list()[0]
 
-  call s:grep(name,'',{},{})
+  call s:grep(name, '', {}, {})
 endfunction
 
-function! s:grep(cmd,pattern,opt,args) abort
+function! s:grep(cmd, pattern, opt, args) abort
   let pattern = a:pattern
   if empty(pattern)
     let pattern = input('Search for pattern: ', expand('<cword>'))
@@ -92,10 +92,13 @@ function! s:grep(cmd,pattern,opt,args) abort
   endif
 
   let grep = s:instance[a:cmd]
-  " echomsg 'grep obj:' grep
-  let cmd = grep.getSearchCmd()
+  echomsg 'grep obj:' grep
+
+  let cmd = grep.getSearchCmd(a:opt)
   let cmd = extend(cmd, [pattern, '.']) " temp fix current dir
-  " echomsg 'cmd:' cmd
+
+  echomsg 'cmd:' cmd
+
   if get(g: ,'fg#async', 1) && s:AsyncProcess.is_available()
     " echomsg 'search async'
     let result = s:AsyncProcess.start(cmd).then({v -> s:asyncResult(v)})
@@ -225,7 +228,13 @@ function! s:grepbind(cmd, ...) abort
 
   " echomsg a:cmd args
 
-  call s:grep(a:cmd,'',{},args)
+  let unknown = get(args, '__unknown__', [])
+  let pattern = len(unknown) == 1 ? unknown[0] : ''
+  let opt = {}
+  let opt['word'] = get(args, 'regex', 1) ? 'regex' : 'pattern'
+  let opt['case'] = get(args, 'case', 'none')
+
+  call s:grep(a:cmd, pattern, opt, args)
 endfunction
 
 function! s:complete(...) abort
