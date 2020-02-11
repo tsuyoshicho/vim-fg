@@ -1,3 +1,7 @@
+# global
+[global]
+skipdir = ['RCS', 'CVS', 'SCCS', '.svn', '.git', '.hg', '.bzr', '.venv', 'node_modules']
+
 # The Platinum Searcher
 [[tool]]
 name = 'pt'
@@ -15,16 +19,22 @@ combine = false
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup']
-search = []
+search = ['--column', '--output-encode', 'none']
 filelist = ['--files-with-matches']
 
-[tool.opt.variant]
-pattern = []
-regex = ['-e']
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
 ignore = ['--ignore-case']
 smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = []
+regex = ['-e']
+
+[tool.opt.variant.target]
 hidden = ['--hidden']
-notignore = ['--skip-vcs-ignores']
+notvcs = ['--skip-vcs-ignores']
 
 # The Silver Searcher
 [[tool]]
@@ -43,13 +53,55 @@ combine = false
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup', '--column']
-search = []
+search = ['--vimgrep']
 filelist = ['--files-with-matches']
 
-[tool.opt.variant]
-pattern = ['--literal']
-regex = []
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
 ignore = ['--ignore-case']
 smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = ['--literal']
+regex = []
+
+[tool.opt.variant.target]
 hidden = ['--hidden']
-notignore = ['--skip-vcs-ignores']
+notvcs = ['--skip-vcs-ignores']
+
+# ripgrep
+[[tool]]
+name = 'rg'
+symbol = 'RipGrep'
+
+[tool.description]
+fullname = 'ripgrep recursively searches directories for a regex pattern'
+url = 'https://github.com/BurntSushi/ripgrep'
+
+[tool.opt]
+short = '-'
+full = '--'
+combine = false
+# opt.grepformat = ''
+
+[tool.opt.set]
+base = []
+windows = ['--crlf']
+search = ['--vimgrep']
+filelist = ['--files-with-matches']
+
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
+ignore = ['--ignore-case']
+smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = ['--fixed-strings']
+regex = ['--regexp']
+
+[tool.opt.variant.target]
+hidden = ['--hidden']
+notvcs = ['--no-ignore-vcs']
+

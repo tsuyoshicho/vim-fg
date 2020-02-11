@@ -1,19 +1,11 @@
-let s:obj = { 'config': v:null }
+let s:obj = g:fg#base#object.new()
 
-function fg#ag#init(config) abort
-  let s:obj.config = a:config
+function! fg#ag#init(item) abort
+  call s:obj.init(a:item)
 endfunction
 
-function fg#ag#new() abort
-  if s:obj.config is# v:null
-    throw 'not configured'
-  endif
+function! fg#ag#new() abort
   return deepcopy(s:obj)
 endfunction
 
 " method
-function s:obj.setGrepPrg() abort
-  " setup `grepprg`
-endfunction
-
-
