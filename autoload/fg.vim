@@ -189,9 +189,10 @@ function! s:command(...) abort
   \ ],
   \})
 
-  call s:parser.add_argument('--regex', 'regular expression', {
-  \ 'type': s:ArgumentParser.types.switch,
-  \ 'deniable': 1,
+  call s:parser.add_argument('--word', 'word target', {
+  \ 'type': s:ArgumentParser.types.choice,
+  \ 'choices': ['regex', 'pattern'],
+  \ 'default': 'regex',
   \})
 
   call s:parser.add_argument('--case', 'case type', {
@@ -231,7 +232,7 @@ function! s:grepbind(cmd, ...) abort
   let unknown = get(args, '__unknown__', [])
   let pattern = len(unknown) == 1 ? unknown[0] : ''
   let opt = {}
-  let opt['word'] = get(args, 'regex', 1) ? 'regex' : 'pattern'
+  let opt['word'] = get(args, 'word', 'regex')
   let opt['case'] = get(args, 'case', 'none')
 
   call s:grep(a:cmd, pattern, opt, args)

@@ -10,17 +10,19 @@ endfunction
 
 function! s:obj.getGrepPrg(...) abort
   let param = extend(get(g: ,'fg#param', {}), {
-  \  'grepprg': {
-  \    'set': {
-  \      'base':   v:true,
-  \      'search': v:true,
-  \    },
-  \    'variant': {
-  \      'case':  'smart',
-  \      'word':  'regex',
-  \    },
-  \  }
+  \  'grepprg': {}
   \}, 'keep')
+
+  let param.grepprg['set'] = extend(get(param,'set',{}), {
+  \  'base':   v:true,
+  \  'search': v:true,
+  \}, 'keep')
+
+  let param.grepprg['variant'] = extend(get(param,'variant',{}), {
+  \  'case':  'smart',
+  \  'word':  'regex',
+  \}, 'keep')
+
 
   let cmd = s:build(self.config, param.grepprg)
 
@@ -54,18 +56,24 @@ endfunction
 
 function! s:obj.getFileListupCmd(...) abort
   let param = extend(get(g: ,'fg#param', {}), {
-  \  'filelit': {
-  \    'set': {
-  \      'base':     v:true,
-  \      'filelist': v:true,
-  \    },
-  \    'variant': {
-  \      'case':  'smart',
-  \    },
-  \  }
+  \  'filelist': {}
   \}, 'keep')
 
-  let cmd = s:build(self.config, param.filelit)
+  let param.filelist['set'] = extend(get(param,'set',{}), {
+  \  'base':   v:true,
+  \  'filelist': v:true,
+  \}, 'keep')
+
+  let param.filelist['variant'] = extend(get(param,'variant',{}), {
+  \  'case':  'smart',
+  \}, 'keep')
+
+  let opt = param.filelist
+  if a:0 > 0
+    let opt.variant = extend(a:1, opt.variant, 'keep')
+  endif
+
+  let cmd = s:build(self.config, opt)
   let cmd = extend(cmd, ['""'])
 
   return cmd
