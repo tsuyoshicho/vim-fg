@@ -15,6 +15,11 @@ set cpo&vim
 "   check executable with prioriy
 "   call init per custom init code
 "   create static instance
+"  command FgXx
+"  Todo
+"   - efm support
+"   - search file pattern
+"   - recursive?
 "
 " usage memo
 " let grep = fg#new() or fg#new('pt')
@@ -69,15 +74,24 @@ endfunction
 " first impl simply
 function! fg#grep() abort
   if s:prio.size() == 0
+    echo 'nothing grep program'
     return
   endif
+  let name = s:prio.to_list()[0]
 
-  let pattern = input('Search for pattern: ', expand('<cword>'))
-  if pattern == ''
-    return
+  call s:grep(name,'',{},{})
+endfunction
+
+function! s:grep(cmd,pattern,opt,args) abort
+  let pattern = a:pattern
+  if empty(pattern)
+    let pattern = input('Search for pattern: ', expand('<cword>'))
+    if pattern == ''
+      return
+    endif
   endif
 
-  let grep = s:instance[s:prio.to_list()[0]]
+  let grep = s:instance[a:cmd]
   " echomsg 'grep obj:' grep
   let cmd = grep.getSearchCmd()
   let cmd = extend(cmd, [pattern, '.']) " temp fix current dir
@@ -208,7 +222,10 @@ function! s:grepbind(cmd, ...) abort
     " help
     return
   endif
-  echomsg a:cmd args
+
+  " echomsg a:cmd args
+
+  call s:grep(a:cmd,'',{},args)
 endfunction
 
 function! s:complete(...) abort
