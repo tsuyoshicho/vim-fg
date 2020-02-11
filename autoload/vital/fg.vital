@@ -9,3 +9,4 @@ Data.String
 ArgumentParser
 Async.Promise.Process
 System.Process
+Prelude

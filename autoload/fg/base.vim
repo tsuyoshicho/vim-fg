@@ -1,5 +1,8 @@
 let s:obj = {}
 
+let s:V = vital#fg#new()
+let s:Prelude  = s:V.import('Prelude')
+
 function! s:obj.new() abort
   return deepcopy(self)
 endfunction
@@ -14,15 +17,15 @@ function! s:obj.getGrepPrg(...) abort
   \}, 'keep')
 
   let param.grepprg['set'] = extend(get(param,'set',{}), {
-  \  'base':   v:true,
-  \  'search': v:true,
+  \  'base'    : v:true,
+  \  'search'  : v:true,
+  \  'windows' : s:Prelude.is_windows(),
   \}, 'keep')
 
   let param.grepprg['variant'] = extend(get(param,'variant',{}), {
   \  'case':  'smart',
   \  'word':  'regex',
   \}, 'keep')
-
 
   let cmd = s:build(self.config, param.grepprg)
 
@@ -35,8 +38,9 @@ function! s:obj.getSearchCmd(...) abort
   \}, 'keep')
 
   let param.search['set'] = extend(get(param,'set',{}), {
-  \  'base':   v:true,
-  \  'search': v:true,
+  \  'base'    : v:true,
+  \  'search'  : v:true,
+  \  'windows' : s:Prelude.is_windows(),
   \}, 'keep')
 
   let param.search['variant'] = extend(get(param,'variant',{}), {
@@ -60,8 +64,9 @@ function! s:obj.getFileListupCmd(...) abort
   \}, 'keep')
 
   let param.filelist['set'] = extend(get(param,'set',{}), {
-  \  'base':   v:true,
+  \  'base'    : v:true,
   \  'filelist': v:true,
+  \  'windows' : s:Prelude.is_windows(),
   \}, 'keep')
 
   let param.filelist['variant'] = extend(get(param,'variant',{}), {

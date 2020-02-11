@@ -124,6 +124,7 @@ function! s:init() abort
       try
         " first time direct call need
         call fg#{name}#init(item)
+      catch
       endtry
     endif
   endfor
