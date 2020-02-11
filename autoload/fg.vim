@@ -185,12 +185,21 @@ function! s:command(...) abort
 
   " command mapping default
   let prefix = get(g: ,'fg#prefix', 'Fg')
-  execute 'command! -nargs=? -range=% -bang -complete=customlist,<SID>complete '
-  \ . prefix
-  \ . ' :call <SID>grepbind('
+  execute 'command! -nargs=? -range=% -bang -complete=customlist,<SID>complete'
+    \ . ' ' . prefix . ' '
+  \ . ':call <SID>grepbind('
   \ . "'" . s:prio.to_list()[0] . "'"
   \ . ', <q-bang>, [<line1>, <line2>], <f-args>)'
   " per command
+  for item in values(s:instance)
+    let cmdPrefix = item.config.symbol
+    let cmdName = item.config.name
+    execute 'command! -nargs=? -range=% -bang -complete=customlist,<SID>complete'
+    \ . ' ' . prefix . cmdPrefix . ' '
+    \ . ':call <SID>grepbind('
+    \ . "'" . cmdName . "'"
+    \ . ', <q-bang>, [<line1>, <line2>], <f-args>)'
+  endfor
 endfunction
 
 function! s:grepbind(cmd, ...) abort
