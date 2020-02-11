@@ -173,19 +173,33 @@ function! s:command(...) abort
   \})
 
   call s:parser.add_argument('--regex', 'regular expression', {
-  \ 'type': 'switch',
+  \ 'type': s:ArgumentParser.types.switch,
+  \ 'deniable': 1,
+  \})
+
+  call s:parser.add_argument('--case', 'case type', {
+  \ 'type': s:ArgumentParser.types.choice,
+  \ 'choices': ['smart', 'ignore', 'none'],
+  \ 'default': 'smart',
   \})
 
   " command mapping default
-  command! -nargs=? -range=% -bang
-  \ -complete=customlist,<SID>complete Fg
-  \ :call <SID>grepbind(<q-bang>, [<line1>, <line2>], <f-args>)
+  let prefix = get(g: ,'fg#prefix', 'Fg')
+  execute 'command! -nargs=? -range=% -bang -complete=customlist,<SID>complete '
+  \ . prefix
+  \ . ' :call <SID>grepbind('
+  \ . "'" . s:prio.to_list()[0] . "'"
+  \ . ', <q-bang>, [<line1>, <line2>], <f-args>)'
   " per command
 endfunction
 
-function! s:grepbind(...) abort
+function! s:grepbind(cmd, ...) abort
   let args = call(s:parser.parse, a:000, s:parser)
-  echomsg args
+  if empty(args)
+    " help
+    return
+  endif
+  echomsg a:cmd args
 endfunction
 
 function! s:complete(...) abort

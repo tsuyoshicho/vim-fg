@@ -17,6 +17,7 @@ set cpo&vim
 let g:fg#priority = get(g:, 'fg#priority', [])
 let g:fg#param = get(g: ,'fg#param', {})
 let g:fg#async = get(g: ,'fg#async', 1)
+let g:fg#prefix = get(g: ,'fg#prefix', 'Fg')
 
 augroup vim-fg-init
   autocmd!
