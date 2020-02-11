@@ -7,7 +7,8 @@ vim find and grep support plugin
 - work grepprg get
 - work search cmd list
 - work filelist cmd list
-- not work ripgrep (regex opt need last do not work)
+- not work ripgrep (regex opt need last do not work?)
+- not work grep (?)
 
 ## Installation
 
@@ -23,10 +24,10 @@ vim find and grep support plugin
 
 ## ToDo
 
-- [ ] `grepprg` format support
-- [ ] toml config read support
-- [ ] default use priority config support
-- [ ] search command and format support
+- [x] `grepprg` format support
+- [x] toml config read support
+- [x] default use priority config support
+- [x] search command and format support
 
 ## Note
 

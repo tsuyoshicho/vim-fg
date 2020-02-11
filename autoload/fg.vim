@@ -118,6 +118,7 @@ function! s:init() abort
     throw 'config file error'
   endif
   for item in s:config.tool
+    let item['global'] = deepcopy(get(s:config, 'global', {}))
     let name = item.name
     let item.executable = executable(name)
     if item.executable
@@ -205,7 +206,7 @@ function! s:command(...) abort
   " command mapping default
   let prefix = get(g: ,'fg#prefix', 'Fg')
   execute 'command! -nargs=? -range=% -bang -complete=customlist,<SID>complete'
-    \ . ' ' . prefix . ' '
+  \ . ' ' . prefix . ' '
   \ . ':call <SID>grepbind('
   \ . "'" . s:prio.to_list()[0] . "'"
   \ . ', <q-bang>, [<line1>, <line2>], <f-args>)'
