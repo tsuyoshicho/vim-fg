@@ -108,6 +108,7 @@ function! s:init() abort
     endif
   endfor
 
+  let s:prio = s:OrderedSet.new()
   let prio_list = get(g:, 'fg#priority', [])
   call s:List.map(prio_list, {v -> s:prio.push(v)})
   call s:List.map(s:config.tool, {v -> !v.executable && s:prio.remove(v.name)})

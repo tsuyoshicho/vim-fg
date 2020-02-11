@@ -49,7 +49,7 @@ combine = false
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup', '--column']
-search = []
+search = ['--vimgrep']
 filelist = ['--files-with-matches']
 
 # [tool.opt.variant]
