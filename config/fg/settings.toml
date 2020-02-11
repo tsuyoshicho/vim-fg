@@ -105,3 +105,34 @@ regex = ['--regexp']
 hidden = ['--hidden']
 notvcs = ['--no-ignore-vcs']
 
+# grep
+[[tool]]
+name = 'grep'
+symbol = 'Grep'
+
+[tool.description]
+fullname = 'Grep'
+url = ''
+
+[tool.opt]
+short = '-'
+full = '--'
+combine = false
+# opt.grepformat = ''
+
+[tool.opt.set]
+base = ['--no-messages', ' --line-number', '--recursive']
+search = []
+filelist = ['--files-with-matches']
+
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
+ignore = ['--ignore-case']
+
+[tool.opt.variant.word]
+pattern = ['--fixed-strings']
+regex = ['--extended-regexp']
+
+# [tool.opt.variant.target]
+
