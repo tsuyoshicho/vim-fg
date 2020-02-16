@@ -242,3 +242,38 @@ regex = ['/R']
 [tool.opt.variant.target]
 # hidden = ['--hidden']
 # notvcs = ['--git' is ignore .git/.gitignore files]
+
+# ack
+[[tool]]
+name = 'ack'
+command = 'ack'
+symbol = 'Ack'
+
+[tool.description]
+fullname = 'Beyond grep: ack'
+url = 'https://beyondgrep.com/'
+
+[tool.opt]
+short = '-'
+full = '--'
+combine = false
+# grepformat = ''
+
+[tool.opt.set]
+base = ['-s', '--nopager', '--nogroup', '--nocolor', '--nounderline', '--recurse']
+search = ['--column']
+filelist = ['-g', '--files-with-matches']
+
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
+ignore = ['--ignore-case']
+smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = ['--literal']
+# regex = []
+
+[tool.opt.variant.target]
+hidden = []
+notvcs = []
