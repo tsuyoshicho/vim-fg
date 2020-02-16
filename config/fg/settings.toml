@@ -126,7 +126,7 @@ combine = false
 
 [tool.opt.set]
 base = ['--no-messages', '--line-number', '--recursive']
-search = []
+search = ['--binary-files=without-match']
 filelist = ['--files-with-matches']
 
 # [tool.opt.variant]
