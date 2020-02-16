@@ -16,7 +16,7 @@ url = 'https://github.com/monochromegane/the_platinum_searcher'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup']
@@ -51,7 +51,7 @@ url = 'https://github.com/ggreer/the_silver_searcher'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup', '--column']
@@ -86,7 +86,7 @@ url = 'https://github.com/BurntSushi/ripgrep'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = []
@@ -122,7 +122,7 @@ url = 'https://www.gnu.org/software/grep/'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = ['--no-messages', '--recursive']
@@ -154,10 +154,10 @@ url = 'https://sift-tool.org/'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
-base = ['--no-color --no-group']
+base = ['--no-color', '--no-group']
 search = ['--filename', '--line-number', '--column', '--binary-skip']
 filelist = ['--targets','--files-with-matches']
 
