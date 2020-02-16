@@ -87,7 +87,7 @@ endfunction
 function! s:build(config, param) abort
   let cmd = []
 
-  let cmd = add(cmd, a:config.name)
+  let cmd = add(cmd, a:config.command)
 
   " set join
   for [name, value] in items(a:param.set)

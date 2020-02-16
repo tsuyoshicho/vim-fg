@@ -119,12 +119,11 @@ function! s:init() abort
   endif
   for item in s:config.tool
     let item['global'] = deepcopy(get(s:config, 'global', {}))
-    let name = item.name
-    let item.executable = executable(name)
+    let item.executable = executable(item.command)
     if item.executable
       try
         " first time direct call need
-        call fg#{name}#init(item)
+        call fg#{item.name}#init(item)
       catch
       endtry
     endif
