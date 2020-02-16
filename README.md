@@ -29,13 +29,15 @@ vim find and grep support plugin
 - [RipGrep](https://github.com/BurntSushi/ripgrep)
 - [sift](https://sift-tool.org/)
 - [jvgrep](https://github.com/mattn/jvgrep)
+- findstr : not work yet
 
 ## ToDo
 
 - [x] sift
 - [x] jvgrep
-- [ ] findstr
+- [x] findstr
 - [ ] ucg (UniversalCodeGrep)
+- [ ] ack
 - [ ] default priority
 
 ## Note

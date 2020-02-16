@@ -208,3 +208,37 @@ regex = ['-G']
 [tool.opt.variant.target]
 # hidden = ['--hidden']
 # notvcs = ['--git' is ignore .git/.gitignore files]
+
+# findstr(windows)
+[[tool]]
+name = 'findstr'
+command = 'findstr'
+symbol = 'FindStr'
+
+[tool.description]
+fullname = 'findstr'
+url = 'https://docs.microsoft.com/ja-jp/windows-server/administration/windows-commands/findstr'
+
+[tool.opt]
+short = '/'
+full = '/'
+combine = false
+# grepformat = ''
+
+[tool.opt.set]
+base = []
+search = ['/S', '/N','/O']
+filelist = ['/M']
+
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
+ignore = ['/I']
+
+[tool.opt.variant.word]
+pattern = ['/L']
+regex = ['/R']
+
+[tool.opt.variant.target]
+# hidden = ['--hidden']
+# notvcs = ['--git' is ignore .git/.gitignore files]
