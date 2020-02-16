@@ -23,16 +23,18 @@ vim find and grep support plugin
 
 ## support grepper
 
+- [Grep](https://www.gnu.org/software/grep/)
 - [The Platinum Searcher](https://github.com/monochromegane/the_platinum_searcher)
 - [The Silver Searcher](https://github.com/ggreer/the_silver_searcher)
 - [RipGrep](https://github.com/BurntSushi/ripgrep)
-- [Grep](https://www.gnu.org/software/grep/)
 - [sift](https://sift-tool.org/)
+- [jvgrep](https://github.com/mattn/jvgrep)
 
 ## ToDo
 
-- [ ] findstr
 - [x] sift
+- [x] jvgrep
+- [ ] findstr
 - [ ] ucg (UniversalCodeGrep)
 - [ ] default priority
 
