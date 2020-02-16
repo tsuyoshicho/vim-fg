@@ -140,7 +140,7 @@ regex = ['--extended-regexp']
 
 # [tool.opt.variant.target]
 
-# ripgrep
+# sift
 [[tool]]
 name = 'sift'
 command = 'sift'
@@ -170,6 +170,40 @@ smart = ['--smart-case']
 [tool.opt.variant.word]
 pattern = ['--literal']
 regex = ['--regexp']
+
+[tool.opt.variant.target]
+# hidden = ['--hidden']
+# notvcs = ['--git' is ignore .git/.gitignore files]
+
+# jvgrep
+[[tool]]
+name = 'jvgrep'
+command = 'jvgrep'
+symbol = 'JVGrep'
+
+[tool.description]
+fullname = 'grep for japanese vimmer'
+url = 'https://github.com/mattn/jvgrep'
+
+[tool.opt]
+short = '-'
+full = '--'
+combine = false
+# grepformat = ''
+
+[tool.opt.set]
+base = ['--no-color', '-R', '-8', '-r']
+search = ['-n', '-C', '-I']
+filelist = ['-l']
+
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
+ignore = ['-i']
+
+[tool.opt.variant.word]
+pattern = ['-F']
+regex = ['-G']
 
 [tool.opt.variant.target]
 # hidden = ['--hidden']
