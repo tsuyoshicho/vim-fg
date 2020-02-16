@@ -21,10 +21,18 @@ vim find and grep support plugin
   tunnable
 - core search command code import/fork from [yegappan/grep](https://github.com/yegappan/grep)
 
+## support grepper
+
+- [The Platinum Searcher](https://github.com/monochromegane/the_platinum_searcher)
+- [The Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+- [RipGrep](https://github.com/BurntSushi/ripgrep)
+- [Grep](https://www.gnu.org/software/grep/)
+- [sift](https://sift-tool.org/)
+
 ## ToDo
 
 - [ ] findstr
-- [ ] sift
+- [x] sift
 - [ ] ucg (UniversalCodeGrep)
 - [ ] default priority
 

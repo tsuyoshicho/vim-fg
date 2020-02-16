@@ -16,7 +16,7 @@ url = 'https://github.com/monochromegane/the_platinum_searcher'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup']
@@ -51,7 +51,7 @@ url = 'https://github.com/ggreer/the_silver_searcher'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = ['--nocolor', '--nogroup', '--column']
@@ -86,7 +86,7 @@ url = 'https://github.com/BurntSushi/ripgrep'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = []
@@ -122,7 +122,7 @@ url = 'https://www.gnu.org/software/grep/'
 short = '-'
 full = '--'
 combine = false
-# opt.grepformat = ''
+# grepformat = ''
 
 [tool.opt.set]
 base = ['--no-messages', '--recursive']
@@ -140,3 +140,37 @@ regex = ['--extended-regexp']
 
 # [tool.opt.variant.target]
 
+# ripgrep
+[[tool]]
+name = 'sift'
+command = 'sift'
+symbol = 'Sift'
+
+[tool.description]
+fullname = 'sift grep on steroids A fast and powerful alternative to grep.'
+url = 'https://sift-tool.org/'
+
+[tool.opt]
+short = '-'
+full = '--'
+combine = false
+# grepformat = ''
+
+[tool.opt.set]
+base = ['--no-color', '--no-group']
+search = ['--filename', '--line-number', '--column', '--binary-skip']
+filelist = ['--targets','--files-with-matches']
+
+# [tool.opt.variant]
+
+[tool.opt.variant.case]
+ignore = ['--ignore-case']
+smart = ['--smart-case']
+
+[tool.opt.variant.word]
+pattern = ['--literal']
+regex = ['--regexp']
+
+[tool.opt.variant.target]
+# hidden = ['--hidden']
+# notvcs = ['--git' is ignore .git/.gitignore files]
