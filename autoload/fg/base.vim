@@ -70,7 +70,6 @@ function! s:obj.getFileListupCmd(...) abort
   \}, 'keep')
 
   let param.filelist['variant'] = extend(get(param,'variant',{}), {
-  \  'case':  'smart',
   \}, 'keep')
 
   let opt = param.filelist
@@ -79,7 +78,6 @@ function! s:obj.getFileListupCmd(...) abort
   endif
 
   let cmd = s:build(self.config, opt)
-  let cmd = extend(cmd, ['""'])
 
   return cmd
 endfunction
@@ -92,18 +90,37 @@ function! s:build(config, param) abort
   let cmd = add(cmd, a:config.command)
 
   " set join
+  let filelist_cmd = []
   for [name, value] in items(a:param.set)
-    if value && has_key(a:config.opt.set, name)
-      let cmd = extend(cmd, a:config.opt.set[name])
+    if name !=? 'filelist'
+      if value && has_key(a:config.opt.set, name)
+        let cmd = extend(cmd, a:config.opt.set[name])
+      endif
+    else
+      if value && has_key(a:config.opt.set, name)
+        let filelist_cmd = extend(filelist_cmd, a:config.opt.set[name])
+      endif
     endif
   endfor
 
   " variant join
+  let word_cmd = []
   for [name, value] in items(a:param.variant)
-    if has_key(a:config.opt.variant, name) && has_key(a:config.opt.variant[name], value)
-      let cmd = extend(cmd, a:config.opt.variant[name][value])
+    if name !=? 'word'
+      if has_key(a:config.opt.variant, name) && has_key(a:config.opt.variant[name], value)
+        let cmd = extend(cmd, a:config.opt.variant[name][value])
+      endif
+    else
+      if has_key(a:config.opt.variant, name) && has_key(a:config.opt.variant[name], value)
+        let word_cmd = extend(word_cmd, a:config.opt.variant[name][value])
+      endif
     endif
   endfor
+  " word last in variant
+  let cmd = extend(cmd, word_cmd)
+
+  " filelist last in all arguments
+  let cmd = extend(cmd, filelist_cmd)
 
   return cmd
 endfunction
