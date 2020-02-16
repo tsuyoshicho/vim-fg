@@ -5,6 +5,7 @@ skipdir = ['RCS', 'CVS', 'SCCS', '.svn', '.git', '.hg', '.bzr', '.venv', 'node_m
 # The Platinum Searcher
 [[tool]]
 name = 'pt'
+command = 'pt'
 symbol = 'Pt'
 
 [tool.description]
@@ -39,6 +40,7 @@ notvcs = ['--skip-vcs-ignores']
 # The Silver Searcher
 [[tool]]
 name = 'ag'
+command = 'ag'
 symbol = 'Ag'
 
 [tool.description]
@@ -72,7 +74,8 @@ notvcs = ['--skip-vcs-ignores']
 
 # ripgrep
 [[tool]]
-name = 'rg'
+name = 'ripgrep'
+command = 'rg'
 symbol = 'RipGrep'
 
 [tool.description]
@@ -108,11 +111,12 @@ notvcs = ['--no-ignore-vcs']
 # grep
 [[tool]]
 name = 'grep'
+command = 'grep'
 symbol = 'Grep'
 
 [tool.description]
-fullname = 'Grep'
-url = ''
+fullname = 'GNU Grep'
+url = 'https://www.gnu.org/software/grep/'
 
 [tool.opt]
 short = '-'
@@ -121,8 +125,8 @@ combine = false
 # opt.grepformat = ''
 
 [tool.opt.set]
-base = ['--no-messages', ' --line-number', '--recursive']
-search = []
+base = ['--no-messages', '--line-number', '--recursive']
+search = ['--binary-files=without-match']
 filelist = ['--files-with-matches']
 
 # [tool.opt.variant]
