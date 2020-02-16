@@ -101,14 +101,14 @@ function! s:grep(cmd, pattern, opt, args) abort
 
   if get(g: ,'fg#async', 1) && s:AsyncProcess.is_available()
     " echomsg 'search async'
-    let result = s:AsyncProcess.start(cmd).then({v -> s:asyncResult(v)})
+    let result = s:AsyncProcess.start(cmd).then({v -> s:asyncResult(grep,v)})
     " echomsg 'async promise:' result
   else
     " echomsg 'search sync'
     let result = s:Process.execute(cmd, {
     \  'split_output' : 1,
     \})
-    call s:syncResult(result)
+    call s:syncResult(grep,result)
   endif
 endfunction
 
@@ -153,17 +153,21 @@ function! s:new(name) abort
   endtry
 endfunction
 
-function! s:asyncResult(value) abort
+function! s:asyncResult(grep,value) abort
+  " echomsg 'grep:' a:grep
   " echomsg 'async:' a:value
-  call s:resultSet(a:value.args[0], a:value.args[-2], a:value.stdout)
+  call s:resultSet(a:value.args[0], a:value.args[-2], a:value.stdout,
+  \ get(a:grep.config.opt,'grepformat', v:null))
 endfunction
 
-function! s:syncResult(value) abort
+function! s:syncResult(grep,value) abort
+  " echomsg 'grep:' a:grep
   " echomsg 'sync:' a:value
-  call s:resultSet(a:value.args[0], a:value.args[-2], a:value.content)
+  call s:resultSet(a:value.args[0], a:value.args[-2], a:value.content,
+  \ get(a:grep.config.opt,'grepformat', v:null))
 endfunction
 
-function! s:resultSet(cmd, pattern, result) abort
+function! s:resultSet(cmd, pattern, result, efm) abort
   " clear qf
   call setqflist([], 'r')
 
@@ -172,8 +176,12 @@ function! s:resultSet(cmd, pattern, result) abort
   "caddexpr 'Search cmd: "' . a:cmd . '"'
   call setqflist([], 'a', {'title' : title})
 
-  call setqflist([], 'a', { 'lines' : a:result})
   " echomsg 'result:' a:result
+  " echomsg 'efm:' a:efm
+  call setqflist([], 'a', { 'lines' : a:result})
+  if !a:efm
+    call setqflist([], 'a', { 'efm' : a:efm})
+  endif
 
   if v:true
     " Open the quickfix window below the current window
