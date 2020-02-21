@@ -178,10 +178,11 @@ function! s:resultSet(cmd, pattern, result, efm) abort
 
   " echomsg 'result:' a:result
   " echomsg 'efm:' a:efm
-  call setqflist([], 'a', { 'lines' : a:result})
   if !a:efm
     call setqflist([], 'a', { 'efm' : a:efm})
   endif
+  let result = s:List.map(a:result, {v -> substitute(v, '\r', '', '')})
+  call setqflist([], 'a', { 'lines' : result})
 
   if v:true
     " Open the quickfix window below the current window
