@@ -35,7 +35,6 @@ function! s:_vital_depends() abort
   return ['Async.Later']
 endfunction
 
-" temp patch
 function! s:noop(...) abort
 endfunction
 let s:NOOP = funcref('s:noop')
