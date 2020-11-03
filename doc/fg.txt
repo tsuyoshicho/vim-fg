@@ -36,7 +36,7 @@ SETTING				|fg-setting|
 ==============================================================================
 INTRODUCTION					*fg-introduction*
 
-*fg* is a Vim plugin
+*fg* is a Vim plugin that is find and grep support.
 
 Latest version:
 https://github.com/tsuyoshicho/fg.vim
@@ -45,7 +45,12 @@ https://github.com/tsuyoshicho/fg.vim
 ==============================================================================
 USAGE						*fg-usage*
 
-
+Use `Fg` prefix (see |g:fg#prefix|) search command.
+That detect command (ex 'grep', 'ag' and other) and auto define.
+>
+	" detect pt
+	:FgPt
+<
 
 ==============================================================================
 INTERFACE					*fg-interface*
