@@ -1,0 +1,83 @@
+*fg.txt*	a summary
+
+Version :
+Author  : Tsuyoshi CHO <Tsuyoshi.CHO+develop@Gmail.com>
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*fg-contents*
+
+INTRODUCTION			|fg-introduction|
+USAGE				|fg-usage|
+INTERFACE			|fg-interface|
+  VARIABLES			  |fg-variables|
+  FUNCTIONS			  |fg-functions|
+SETTING				|fg-setting|
+
+
+==============================================================================
+INTRODUCTION					*fg-introduction*
+
+*fg* is a Vim plugin
+
+Latest version:
+https://github.com/tsuyoshicho/fg.vim
+
+
+==============================================================================
+USAGE						*fg-usage*
+
+
+
+==============================================================================
+INTERFACE					*fg-interface*
+
+------------------------------------------------------------------------------
+VARIABLES					*fg-variables*
+
+g:fg#base#object				*g:fg#base#object*
+	default value: = s:obj
+
+
+g:fg#priority					*g:fg#priority*
+	default value: ["pt", "ag", "grep"]
+
+
+g:fg#param					*g:fg#param*
+	default value: = get(g: ,"fg#param", {})
+
+
+g:fg#async					*g:fg#async*
+	default value: = get(g: ,"fg#async", 1)
+
+
+g:fg#prefix					*g:fg#prefix*
+	default value: = get(g: ,"fg#prefix", "Fg")
+
+
+------------------------------------------------------------------------------
+FUNCTIONS					*fg-functions*
+
+==============================================================================
+SETTING						*fg-setting*
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
